@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Local apps
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
+    'orders.apps.OrdersConfig',
 
     # Third party
     'rest_framework',
@@ -123,9 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+
 
 # Media files
 
