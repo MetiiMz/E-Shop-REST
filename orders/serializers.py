@@ -10,16 +10,29 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CartAddSerializer(serializers.Serializer):
+    """
+    Serializer for adding a product to the cart with a specified quantity.
+    """
     quantity = serializers.IntegerField()
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderItemSerializer(serializers.ModelSerializer):
+    """
+    Serializer for showing order items with nested product details.
+    """
+    product = ProductSerializer(read_only=True)
+
     class Meta:
-        model = Order
+        model = OrderItem
         fields = "__all__"
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
+    """
+    Serializer for displaying order details including items.
+    """
+    items = OrderItemSerializer(many=True, read_only=True)
+
     class Meta:
-        model = OrderItem
+        model = Order
         fields = "__all__"

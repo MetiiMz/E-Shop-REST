@@ -2,6 +2,10 @@ from django.db import models
 
 
 class Category(models.Model):
+    """
+    Model representing a product category.
+    Categories can be nested (i.e., sub-categories).
+    """
     sub_category = models.ForeignKey(
         'self',
         on_delete=models.CASCADE,
@@ -23,6 +27,9 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    """
+    Model representing a product in the store.
+    """
     category = models.ManyToManyField(Category, related_name='product')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=100, unique=True)

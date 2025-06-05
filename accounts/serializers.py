@@ -12,11 +12,19 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'password': {'write_only': True},
         }
 
+    # Remove password2 and create a new user using the create_user method from UserManager
     def create(self, validated_data):
         del validated_data['password2']
-        User.objects.create_user(**validated_data)
+        return User.objects.create_user(**validated_data)
 
+    # Check that password and password2 match
     def validate(self, data):
         if data['password'] != data['password2']:
             raise serializers.ValidationError('The password must be the same')
         return data
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"

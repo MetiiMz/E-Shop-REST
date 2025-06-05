@@ -6,6 +6,9 @@ CART_SESSION_ID = 'cart'
 
 
 class Cart:
+    """
+    A class to manage the shopping cart stored in the user's session
+    """
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(CART_SESSION_ID)
@@ -14,6 +17,9 @@ class Cart:
         self.cart = cart
 
     def __iter__(self):
+        """
+        Yield each item in the cart with full product data and total price
+        """
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
         cart = self.cart.copy()
@@ -28,6 +34,9 @@ class Cart:
         return sum(item['quantity'] for item in self.cart.values())
 
     def add(self, product, quantity):
+        """
+        Add a product to the cart or update its quantity
+        """
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
@@ -41,6 +50,9 @@ class Cart:
             self.save()
 
     def clear(self):
+        """
+        Remove all items from the cart and clear session data
+        """
         del self.session[CART_SESSION_ID]
         self.save()
 
